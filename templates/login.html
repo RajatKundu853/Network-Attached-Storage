@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - NA$hield</title>
+    <style>
+        body {
+            background-color: #0a0f1a;
+            color: #00ffcc;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #00ffcc;
+            text-align: center;
+            width: 350px;
+            position: relative;
+        }
+        .logo-container {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 10px #00ffcc;
+        }
+        .logo-container img {
+            width: 70px;
+            height: auto;
+        }
+        h2 {
+            color: #00ffcc;
+            margin-top: 40px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        .password-container {
+            position: relative;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background: #1a1f2b;
+            border: 1px solid #00ffcc;
+            color: #00ffcc;
+            border-radius: 5px;
+        }
+        .eye-icon {
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #00ffcc;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px 20px;
+            background: #00ffcc;
+            color: #0a0f1a;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #009999;
+        }
+    </style>
+    <script>
+        function togglePassword() {
+            var passwordInput = document.getElementById("password");
+            var eyeIcon = document.getElementById("eye-icon");
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.textContent = "👁";
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.textContent = "👁️‍🗨️";
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-container">
+            <img src="{{ url_for('static', filename='nashieldlogo.png') }}" alt="nashieldlogo">
+        </div>
+        <h2>Login to NA$hield</h2>
+        <form method="POST">
+            <label>Username:</label>
+            <input type="text" name="username" required>
+            <label>Password:</label>
+            <div class="password-container">
+                <input type="password" name="password" id="password" required>
+                <span class="eye-icon" id="eye-icon" onclick="togglePassword()">👁️‍🗨️</span>
+            </div>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+</body>
+</html>

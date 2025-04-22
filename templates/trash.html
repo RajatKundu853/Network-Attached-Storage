@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trash Bin</title>
+    <style>
+        /* Base theme */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            margin: 20px;
+            font-size: 16px;
+        }
+
+        h1 {
+            font-size: 2em;
+            color: #00ff99;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #2f2f2f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #00ff99;
+        }
+
+        .trash-item {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .trash-item strong {
+            color: #00ff99;
+        }
+
+        .trash-item em {
+            color: #b0b0b0;
+        }
+
+        .trash-item button {
+            background-color: #ff6f6f;
+            margin-left: 5px;
+        }
+
+        .trash-item button:hover {
+            background-color: #ff3333;
+        }
+
+        .back-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .back-button:hover {
+            background-color: #45a049;
+        }
+
+        .search-bar {
+            margin: 20px 0 20px auto;  /* pushes it to the right */
+            padding: 10px;
+            background-color: #333;
+            color: #00ffcc;
+            border: 1px solid #00ffcc;
+            border-radius: 5px;
+            width: 50%;
+        }
+
+        .search-bar input {
+            width: 95%;
+            padding: 8px;
+            border: none;
+            background: #222;
+            color: #00ffcc;
+            font-size: 16px;
+        }
+
+        .search-bar input::placeholder {
+            color: #00ffcc;
+        }
+
+    </style>
+</head>
+<body>
+    <button class="back-button" onclick="window.location.href='/browse'">⬅️ Back to Files</button>
+
+    <h1>🗑️ Recycle Bin</h1>
+
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" oninput="searchFiles()" placeholder="Search files by name..." />
+    </div>
+
+    <div style="margin-top: 20px;">
+        {% for file in files %}
+            <div class="trash-item">
+                <strong>{{ file.name }}</strong>   <!--  <em>(original: {{ file.original }})</em> -->
+                <button onclick="restore('{{ file.name }}')">♻️ Restore</button>
+                <button onclick="permanentDelete('{{ file.name }}')">❌ Delete Permanently</button>
+            </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        function restore(filename) {
+            fetch("/restore", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ filename: filename })
+            }).then(r => r.json()).then(d => location.reload());
+        }
+
+        function permanentDelete(filename) {
+            if (!confirm("Permanently delete this file?")) return;
+            fetch("/permanent_delete", {
+                method: "POST",
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ filename: filename })
+            }).then(r => r.json()).then(d => location.reload());
+        }
+
+        function searchFiles() {
+            let searchTerm = document.getElementById("searchInput").value.toLowerCase();
+            let files = document.querySelectorAll(".trash-item");
+            files.forEach(function(file) {
+                let fileName = file.querySelector("strong").textContent.toLowerCase();
+                if (fileName.indexOf(searchTerm) === -1) {
+                    file.style.display = "none";
+                } else {
+                    file.style.display = "block";
+                }
+            });
+        }
+        
+    </script>
+</body>
+</html>
