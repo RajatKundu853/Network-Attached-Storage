@@ -52,9 +52,9 @@ Default User ID: admin  ,  Password: password123
 
 
 ## Access NA$hield globally -- using ngrok tunneling
-Open a new terminal.
+Open a new terminal in Network-Attached-Storage directory .
 ```bash
-./nas.sh
+./ngrok.sh
 ```
 #### Follow the instruction on terminal---
 1. Visit the Ngrok website: https://dashboard.ngrok.com/get-started/your-authtoken
