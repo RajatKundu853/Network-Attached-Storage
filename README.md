@@ -32,7 +32,7 @@ Plug in your external storage device (HDD/SSD) to the Raspberry Pi via USB.
 sudo apt update
 sudo apt upgrade -y
 git clone https://github.com/RajatKundu853/Network-Attached-Storage.git
-cd Network-Attached-Storage-main
+cd Network-Attached-Storage
 chmod +x *
 ./nas.sh
 ```
